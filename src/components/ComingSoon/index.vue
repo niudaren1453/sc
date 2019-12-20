@@ -1,141 +1,15 @@
 <template>
     <div class="comingSoon">
                 <ul>
-                    <li>
+                    <li v-for="item in movieList" :key="item.id">
                         <div class="recommend_left">
-                            <img src="/img/re_1.jpg">
+                             <img :src="item.img | setWH('128.180')">
                         </div>
                         <div class="recommend_mid">
-                            <div class="film_name">勇敢的游戏2:之xxxxxxxxxxxxxxxx</div>
-                            <div class="ober">多久上映：200111</div>
-                            <div class="star">主演：巨石强森</div>
-                            <div class="projection_times">上映日期 ：201515</div>
-                        </div>
-                        <div class="recommend_right">
-                            <div class="btn_buy">预售</div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="recommend_left">
-                            <img src="/img/re_1.jpg">
-                        </div>
-                        <div class="recommend_mid">
-                            <div class="film_name">勇敢的游戏2:之xxxxxxxxxxxxxxxx</div>
-                            <div class="ober">多久上映：200111</div>
-                            <div class="star">主演：巨石强森</div>
-                            <div class="projection_times">上映日期 ：201515</div>
-                        </div>
-                        <div class="recommend_right">
-                            <div class="btn_buy">预售</div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="recommend_left">
-                            <img src="/img/re_1.jpg">
-                        </div>
-                        <div class="recommend_mid">
-                            <div class="film_name">勇敢的游戏2:之xxxxxxxxxxxxxxxx</div>
-                            <div class="ober">多久上映：200111</div>
-                            <div class="star">主演：巨石强森</div>
-                            <div class="projection_times">上映日期 ：201515</div>
-                        </div>
-                        <div class="recommend_right">
-                            <div class="btn_buy">预售</div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="recommend_left">
-                            <img src="/img/re_1.jpg">
-                        </div>
-                        <div class="recommend_mid">
-                            <div class="film_name">勇敢的游戏2:之xxxxxxxxxxxxxxxx</div>
-                            <div class="ober">多久上映：200111</div>
-                            <div class="star">主演：巨石强森</div>
-                            <div class="projection_times">上映日期 ：201515</div>
-                        </div>
-                        <div class="recommend_right">
-                            <div class="btn_buy">预售</div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="recommend_left">
-                            <img src="/img/re_1.jpg">
-                        </div>
-                        <div class="recommend_mid">
-                            <div class="film_name">勇敢的游戏2:之xxxxxxxxxxxxxxxx</div>
-                            <div class="ober">多久上映：200111</div>
-                            <div class="star">主演：巨石强森</div>
-                            <div class="projection_times">上映日期 ：201515</div>
-                        </div>
-                        <div class="recommend_right">
-                            <div class="btn_buy">预售</div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="recommend_left">
-                            <img src="/img/re_1.jpg">
-                        </div>
-                        <div class="recommend_mid">
-                            <div class="film_name">勇敢的游戏2:之xxxxxxxxxxxxxxxx</div>
-                            <div class="ober">多久上映：200111</div>
-                            <div class="star">主演：巨石强森</div>
-                            <div class="projection_times">上映日期 ：201515</div>
-                        </div>
-                        <div class="recommend_right">
-                            <div class="btn_buy">预售</div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="recommend_left">
-                            <img src="/img/re_1.jpg">
-                        </div>
-                        <div class="recommend_mid">
-                            <div class="film_name">勇敢的游戏2:之xxxxxxxxxxxxxxxx</div>
-                            <div class="ober">多久上映：200111</div>
-                            <div class="star">主演：巨石强森</div>
-                            <div class="projection_times">上映日期 ：201515</div>
-                        </div>
-                        <div class="recommend_right">
-                            <div class="btn_buy">预售</div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="recommend_left">
-                            <img src="/img/re_1.jpg">
-                        </div>
-                        <div class="recommend_mid">
-                            <div class="film_name">勇敢的游戏2:之xxxxxxxxxxxxxxxx</div>
-                            <div class="ober">多久上映：200111</div>
-                            <div class="star">主演：巨石强森</div>
-                            <div class="projection_times">上映日期 ：201515</div>
-                        </div>
-                        <div class="recommend_right">
-                            <div class="btn_buy">预售</div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="recommend_left">
-                            <img src="/img/re_1.jpg">
-                        </div>
-                        <div class="recommend_mid">
-                            <div class="film_name">勇敢的游戏2:之xxxxxxxxxxxxxxxx</div>
-                            <div class="ober">多久上映：200111</div>
-                            <div class="star">主演：巨石强森</div>
-                            <div class="projection_times">上映日期 ：201515</div>
-                        </div>
-                        <div class="recommend_right">
-                            <div class="btn_buy">预售</div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="recommend_left">
-                            <img src="/img/re_1.jpg">
-                        </div>
-                        <div class="recommend_mid">
-                            <div class="film_name">勇敢的游戏2:之xxxxxxxxxxxxxxxx</div>
-                            <div class="ober">多久上映：200111</div>
-                            <div class="star">主演：巨石强森</div>
-                            <div class="projection_times">上映日期 ：201515</div>
+                            <div class="film_name">{{item.nm}}</div>
+                            <div class="ober">{{item.wish}}人想看</div>
+                            <div class="star">主演：{{item.star}}</div>
+                            <div class="projection_times">上映日期 ：{{item.rt}}</div>
                         </div>
                         <div class="recommend_right">
                             <div class="btn_buy">预售</div>
@@ -149,6 +23,19 @@
 <script>
 export default {
     name:'ComingSoon',
+     data() {
+    return {
+      movieList: [],
+    }
+  },
+  mounted() {
+    this.axios.get('/api/movieOnInfoList?cityId=10').then(res => {
+      var msg = res.data.msg;
+      if (msg == 'ok') {
+        this.movieList=res.data.data.movieList;
+      }
+    })
+  }
 }
 </script>
 

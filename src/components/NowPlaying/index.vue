@@ -1,144 +1,43 @@
 <template>
-   <div class="wrap">
-                <ul>
-                    <li>
-                        <div class="recommend_left">
-                            <img src="/img/re_1.jpg">
-                        </div>
-                        <div class="recommend_mid">
-                            <div class="film_name">勇敢的游戏2:之xxxxxxxxxxxxxxxx</div>
-                            <div class="ober">观众评分</div>
-                            <div class="star">主演：道恩'强森      道恩强森 强森  道恩</div>
-                            <div class="projection_times">今天有1000影院放映</div>
-                        </div>
-                        <div class="recommend_right">
-                            <div class="btn_buy">购票</div>
-                        </div>
-                    </li>
-                    <li>
-                            <div class="recommend_left">
-                                <img src="/img/re_1.jpg">
-                            </div>
-                            <div class="recommend_mid">
-                                <div class="film_name">勇敢的游戏2:之xxxxxxxxxxxxxxxx</div>
-                                <div class="ober">观众评分</div>
-                                <div class="star">主演：道恩'强森      道恩强森 强森  道恩</div>
-                                <div class="projection_times">今天有1000影院放映</div>
-                            </div>
-                            <div class="recommend_right">
-                                <div class="btn_buy">购票</div>
-                            </div>
-                    </li>
-                    <li>
-                            <div class="recommend_left">
-                                <img src="/img/re_1.jpg">
-                            </div>
-                            <div class="recommend_mid">
-                                <div class="film_name">勇敢的游戏2:之xxxxxxxxxxxxxxxx</div>
-                                <div class="ober">观众评分</div>
-                                <div class="star">主演：道恩'强森      道恩强森 强森  道恩</div>
-                                <div class="projection_times">今天有1000影院放映</div>
-                            </div>
-                            <div class="recommend_right">
-                                <div class="btn_buy">购票</div>
-                            </div>
-                    </li>
-                    <li>
-                            <div class="recommend_left">
-                                <img src="/img/re_1.jpg">
-                            </div>
-                            <div class="recommend_mid">
-                                <div class="film_name">勇敢的游戏2:之xxxxxxxxxxxxxxxx</div>
-                                <div class="ober">观众评分</div>
-                                <div class="star">主演：道恩'强森      道恩强森 强森  道恩</div>
-                                <div class="projection_times">今天有1000影院放映</div>
-                            </div>
-                            <div class="recommend_right">
-                                <div class="btn_buy">购票</div>
-                            </div>
-                    </li>
-                    <li>
-                            <div class="recommend_left">
-                                <img src="/img/re_1.jpg">
-                            </div>
-                            <div class="recommend_mid">
-                                <div class="film_name">勇敢的游戏2:之xxxxxxxxxxxxxxxx</div>
-                                <div class="ober">观众评分</div>
-                                <div class="star">主演：道恩'强森      道恩强森 强森  道恩</div>
-                                <div class="projection_times">今天有1000影院放映</div>
-                            </div>
-                            <div class="recommend_right">
-                                <div class="btn_buy">购票</div>
-                            </div>
-                    </li>
-                    <li>
-                            <div class="recommend_left">
-                                <img src="/img/re_1.jpg">
-                            </div>
-                            <div class="recommend_mid">
-                                <div class="film_name">勇敢的游戏2:之xxxxxxxxxxxxxxxx</div>
-                                <div class="ober">观众评分</div>
-                                <div class="star">主演：道恩'强森      道恩强森 强森  道恩</div>
-                                <div class="projection_times">今天有1000影院放映</div>
-                            </div>
-                            <div class="recommend_right">
-                                <div class="btn_buy">购票</div>
-                            </div>
-                    </li>
-                    <li>
-                            <div class="recommend_left">
-                                <img src="/img/re_1.jpg">
-                            </div>
-                            <div class="recommend_mid">
-                                <div class="film_name">勇敢的游戏2:之xxxxxxxxxxxxxxxx</div>
-                                <div class="ober">观众评分</div>
-                                <div class="star">主演：道恩'强森      道恩强森 强森  道恩</div>
-                                <div class="projection_times">今天有1000影院放映</div>
-                            </div>
-                            <div class="recommend_right">
-                                <div class="btn_buy">购票</div>
-                            </div>
-                    </li>
-                    <li>
-                            <div class="recommend_left">
-                                <img src="/img/re_1.jpg">
-                            </div>
-                            <div class="recommend_mid">
-                                <div class="film_name">勇敢的游戏2:之xxxxxxxxxxxxxxxx</div>
-                                <div class="ober">观众评分</div>
-                                <div class="star">主演：道恩'强森      道恩强森 强森  道恩</div>
-                                <div class="projection_times">今天有1000影院放映</div>
-                            </div>
-                            <div class="recommend_right">
-                                <div class="btn_buy">购票</div>
-                            </div>
-                    </li>
-                    <li>
-                            <div class="recommend_left">
-                                <img src="/img/re_1.jpg">
-                            </div>
-                            <div class="recommend_mid">
-                                <div class="film_name">勇敢的游戏2:之xxxxxxxxxxxxxxxx</div>
-                                <div class="ober">观众评分</div>
-                                <div class="star">主演：道恩'强森      道恩强森 强森  道恩</div>
-                                <div class="projection_times">今天有1000影院放映</div>
-                            </div>
-                            <div class="recommend_right">
-                                <div class="btn_buy">购票</div>
-                            </div>
-                    </li>
-                        
-                    
-                </ul>
-            </div>
+  <div class="wrap">
+    <ul>
+      <li v-for="item in movieList" :key="item.id">
+        <div class="recommend_left">
+          <img :src="item.img | setWH('128.180')">
+        </div>
+        <div class="recommend_mid">
+          <div class="film_name">{{item.nm}}</div>
+          <div class="ober">观众评分:{{item.sc}}</div>
+          <div class="star">主演:{{item.star}}</div>
+          <div class="projection_times">{{item.showInfo}}</div>
+        </div>
+        <div class="recommend_right">
+          <div class="btn_buy">购票</div>
+        </div>
+      </li>
+    </ul>
+  </div>
 </template>
 <script>
 export default {
-    name:'NowPlaying'
+  name: 'NowPlaying',
+  data() {
+    return {
+      movieList: []
+    }
+  },
+  mounted() {
+    this.axios.get('/api/movieOnInfoList?cityId=10').then(res => {
+      var msg = res.data.msg;
+      if (msg == 'ok') {
+        this.movieList=res.data.data.movieList;
+      }
+    })
+  }
 }
 </script>
 <style scoped>
-    #content .wrap {
+#content .wrap {
   margin-top: 100px;
   /* overflow: hidden; */
 }
@@ -200,5 +99,4 @@ export default {
   font-size: 18px;
   color: white;
 }
-
 </style>>

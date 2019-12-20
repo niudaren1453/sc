@@ -1,20 +1,23 @@
 <template>
   <div>
     <div class="cineam">
+      <div class='time'>更新日期：{{data}}</div>
+
       <div class="cineam_ul">
-        <li class="cineam_li" v-for="(item,index) in cinemaList" :key="index">
+        <li class="cineam_li" v-for="(item,index) in subjects" :key="index">
           <div class="cineam_left">
             <div class="cineam_details">
-              <p class="cineam_p1">{{item.title}}</p>
-              <p class="cineam_p2">评分<span>{{item.rating.average}}</span></p>
+              <p class="cineam_p1">{{item.subject.title}}</p>
+              <p class="cineam_p2">评分<span>{{item.subject.rating.average}}</span></p>
             </div>
             <div class="cineam_address">
-              <p >{{item.original_title}}</p>
+              <p >票数-{{item.box}}万  排名{{item.rank}}</p>
             </div>
             <div class="cineam_type">
               <ul>
-                <li v-for="(i,genres) in cinemaList[index].genres" :key="genres">
-                  {{i}}
+                <li v-for="(i,genres) in subjects[index].subject.genres" :key="genres">
+                    {{i}}
+                  
                 </li>
                
             
@@ -22,9 +25,9 @@
             </div>
           </div>
           <div class="cineam_right">
-            <div class="cineam_m" @click="tiaozhuan(item.alt)">
+            <div class="cineam_m">
                详情
-              <!-- <img :src="item.images.large">部分图片获取失败 -->
+        
               </div>
           </div>
         </li>
@@ -36,30 +39,31 @@
 
 <script>
 export default {
-  name: 'CiList',
+  name: 'NorthAmerica',
   data(){
-    return{
-      cinemaList:[],
-    };
+      return{
+          data:"",
+          subjects:[],
+      }
   },
   mounted() {
-    this.axios.get('https://douban.uieee.com/v2/movie/top250').then((res)=>{
-      console.log(res);
-      console.log(res.status);
-      console.log(res.data);
-      console.log(res.data.subjects);
-      if(res.status=='200'){
-        this.cinemaList=res.data.subjects;
-      }
-
-  
-    })
+      this.axios.get('https://douban.uieee.com/v2/movie/us_box?apikey=0df993c66c0c636e29ecbb5344252a4a').then((res)=>{
+        //   console.log(res);
+        //   console.log(res.data.date);
+        //   console.log(res.data.subjects);
+          if(res.status=="200"){
+              this.data=res.data.date;
+              this.subjects=res.data.subjects;
+              //把票房次数/10000
+                for( var i=0;i<=this.subjects.length-1;i++){
+                    if(this.subjects[i].box>10000){
+                      this.subjects[i].box= this.subjects[i].box/10000;
+                    }
+                }
+          }
+      });
   },
-  methods:{
-    tiaozhuan(value){
-       window.location.href=value;
-    }
-  },
+ 
 }
 </script>
 <style scoped>
@@ -122,8 +126,11 @@ export default {
   color: red;
   font-weight: 700;
 }
+.cineam .cineam_p2 span{
+    font-size:8px;
+}
 .cineam .cineam_address {
-  font-size: 8px;
+  font-size: 12px;
   color: gray;
   margin: 3px 0;
   width: 100%;
@@ -168,4 +175,7 @@ export default {
   height: 100px;
 }
 
+.time{
+    padding:5px 10px;
+}
 </style>
