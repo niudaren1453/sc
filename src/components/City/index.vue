@@ -1,180 +1,207 @@
 <template>
-   <div class="city">
-                <div class="city_list">
-                    <div class="wrapper">
-                        <div>
-                            <div class="city_hot">
-                                <h2>热门城市</h2>
-                                <ul class="clearfix">
-                                    <li>北京</li>
-                                    <li>上海</li>
-                                    <li>广州</li>
-                                    <li>南京</li>
-                                    <li>杭州</li>
-                                    <li>重庆</li>
-                                    <li>武汉</li>
-                                    <li>天津</li>
-                                    <li>成都</li>
-                                </ul>
-                            </div>
-                            <div class="city_sort">
-                                <div>
-                                    <h2>A </h2>
-                                    <ul>
-                                        <li>AA</li>
-                                        <li>AA</li>
-                                        <li>AAAA</li>
-                                        <li>AAAAA</li>
-                                        <li>AAAA</li>
-                                        <li>AAAAAA</li>
-                                    </ul>
-                                </div>
-                                <div>
-                                    <h2>B </h2>
-                                    <ul>
-                                        <li>BB</li>
-                                        <li>AABB</li>
-                                        <li>AAAABB</li>
-                                        <li>AAAABBBBBBBA</li>
-                                        <li>AABBBBAA</li>
-                                        <li>AAABBBBBBBBBBBA</li>
-                                    </ul>
-                                </div>
-                                <div>
-                                    <h2>C </h2>
-                                    <ul>
-                                        <li>AA</li>
-                                        <li>CCCCCCCCC</li>
-                                        <li>AAAA</li>
-                                        <li>AAACCCCCCCCCCCCCCCCCCCAA</li>
-                                        <li>AAACCCCCCCCCCCCCCCA</li>
-                                        <li>AACCCCCCCCCCCCCAAAA</li>
-                                    </ul>
-                                </div>
-                            </div>
-
-
-                        </div>
-                    </div>
-                </div>
-                <div class="city_index">
-                    <ul>
-                        <li>A</li>
-                        <li>B</li>
-                        <li>C</li>
-                        <li>D</li>
-                        <li>E</li>
-                        <li>F</li>
-                        <li>G</li>
-                        <li>H</li>
-                        <li>J</li>
-                        <li>K</li>
-                        <li>L</li>
-                        <li>M</li>
-                        <li>N</li>
-                        <li>P</li>
-                        <li>Q</li>
-                        <li>R</li>
-                        <li>S</li>
-                        <li>T</li>
-                        <li>W</li>
-                        <li>X</li>
-                        <li>Y</li>
-                        <li>Z</li>
-                        
-                    </ul>
-                </div>
-
+  <div class="city">
+    <div class="city_list">
+      <div class="wrapper">
+        <div>
+          <div class="city_hot">
+            <h2>热门城市</h2>
+            <ul class="clearfix">
+              <li v-for="item in hotList" :key="item.id">{{item.nm }}</li>
+            </ul>
+          </div>
+          <div class="city_sort" ref="city_sort">
+            <div v-for="item in cityList" :key="item.index">
+              <h2>{{item.index}}</h2>
+              <ul>
+                <li v-for="itemList in item.list" :key="itemList.id">{{itemList.nm}}</li>
+              </ul>
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="city_index">
+      <ul>
+        <li v-for="(item,index) in cityList" :key="item.index" @touchstart="handleToIndex(index)">{{item.index}}</li>
+      </ul>
+    </div>
+  </div>
 </template>
 <script>
 export default {
-    name:"City",
-    
+  name: 'City',
+  data() {
+    return {
+      cityList: [],
+      hotList: []
+    }
+  },
+  mounted() {
+    //结构     data下的cities[("id":1,  "nm":"北京"  ,  "isHot":1,  "py":"beijing")]
+    this.axios.get('/api/cityList').then(res => {
+      console.log(res)
+      var msg = res.data.msg //用来判断数据
+      if (msg === 'ok') {
+        var cities = res.data.data.cities
+        // console.log(data);
+        var { cityList, hotList } = this.formatCityList(cities)
+        this.cityList = cityList
+        this.hotList = hotList
+      }
+    })
+  },
+  methods: {
+    //实现如  上海      shanghai   截取s
+    formatCityList(cities) {
+      var cityList = [] //城市分类
+      var hotList = [] //热门城市分类
+
+      //热门城市
+      for (var i = 0; i < cities.length; i++) {
+        if (cities[i].isHot === 1) {
+          hotList.push(cities[i])
+        }
+      }
+      console.log(hotList) //查看hot城市
+
+      for (var i = 0; i < cities.length; i++) {
+        var firstLetter = cities[i].py.substring(0, 1).toUpperCase() //截取py下的第一个拼音 &转换成英文大写
+
+        if (toCom(firstLetter)) {
+          //新添加index
+          cityList.push({
+            index: firstLetter,
+            list: [{ nm: cities[i].nm, id: cities[i].id }]
+          })
+        } else {
+          //累加已有index
+          for (var j = 0; j < cityList.length; j++) {
+            if (cityList[j].index === firstLetter) {
+              cityList[j].list.push({ nm: cities[i].nm, id: cities[i].id })
+            }
+          }
+        }
+      }
+      //城市字母排序
+      cityList.sort((n1, n2) => {
+        if (n1.index > n2.index) {
+          return 1
+        } else if (n1.index < n2.index) {
+          return -1
+        } else {
+          return 0
+        }
+      })
+
+      //用来判断
+      function toCom(firstLetter) {
+        for (var i = 0; i < cityList.length; i++) {
+          //用来判断这个index有没有存在，如果存在false    ，否则true
+          if (cityList[i].index === firstLetter) {
+            return false
+          }
+        }
+        return true
+      }
+      //把热门城市 和 城市分类return
+      return {
+        cityList,
+        hotList
+      }
+      // console.log(cityList);//城市分类
+    },
+    handleToIndex(index){
+        var h2=this.$refs.city_sort.getElementsByTagName('h2');//ref dom元素获取
+        console.log(h2[index]);
+        console.log(h2[index].offsetTop);
+        console.log(this.$refs.city_sort.parentNode.parentNode.parentNode);
+        this.$refs.city_sort.parentNode.parentNode.parentNode.scrollTop=h2[index].offsetTop-100;
+        //parentNode=city_list     由于使用margin-top 所以减上-100 
+
+
+    }
+
+  }
 }
 </script>
 
 <style scoped>
-    #content .city {
-            margin-top: 100px;
-            display: flex;
-            width: 100%;
-            top: 0;
-            bottom: 0;
-        }
+#content .city {
+  margin-top: 100px;
+  display: flex;
+  width: 100%;
+  top: 0;
+  bottom: 0;
+}
 
-        .city .city_list {
-            flex: 1;
-            overflow: auto;
-            background: #fff5f0;
-        }
+.city .city_list {
+  flex: 1;
+  overflow: auto;
+  background: #fff5f0;
+}
 
-        .city .city_list::-webkit-scrollbar {
-            background-color: transparent;
-            width: 0;
-        }
+.city .city_list::-webkit-scrollbar {
+  background-color: transparent;
+  width: 0;
+}
 
-        .city .city_hot {
-            margin-top: 20px;
-        }
+.city .city_hot {
+  margin-top: 20px;
+}
 
-        .city .city_hot h2 {
-            padding-left: 15px;
-            line-height: 30px;
-            font-size: 14px;
-            background: #f0f0f0;
-            font-weight: 400;
-        }
+.city .city_hot h2 {
+  padding-left: 15px;
+  line-height: 30px;
+  font-size: 14px;
+  background: #f0f0f0;
+  font-weight: 400;
+}
 
-        .city .city_hot ul li {
-            float: left;
-            background: #fff;
-            width: 29%;
-            height: 33px;
-            margin-top: 15px;
-            margin-left: 3%;
-            padding: 0 4px;
-            border: 1px solid #e6e6e6;
-            border-radius: 3px;
-            line-height: 33px;
-            text-align: center;
-            box-sizing: border-box;
-        }
-        .city .city_sort{
-            height: 100%;
-        }
-   
+.city .city_hot ul li {
+  float: left;
+  background: #fff;
+  width: 29%;
+  height: 33px;
+  margin-top: 15px;
+  margin-left: 3%;
+  padding: 0 4px;
+  border: 1px solid #e6e6e6;
+  border-radius: 3px;
+  line-height: 33px;
+  text-align: center;
+  box-sizing: border-box;
+}
+.city .city_sort {
+  height: 100%;
+}
 
-        .city .city_sort h2 {
-            padding-left: 15px;
-            line-height: 30px;
-            font-size: 14px;
-            background: #f0f0f0;
-            font-weight: 400
-        }
+.city .city_sort h2 {
+  padding-left: 15px;
+  line-height: 30px;
+  font-size: 14px;
+  background: #f0f0f0;
+  font-weight: 400;
+}
 
-        .city .city_sort ul {
-            padding-left: 10px;
-            margin-top: 10px;
-        }
+.city .city_sort ul {
+  padding-left: 10px;
+  margin-top: 10px;
+}
 
-        .city .city_sort ul li {
-            line-height: 30px;
-        }
+.city .city_sort ul li {
+  line-height: 30px;
+}
 
-        .city .city_index {
-            width: 20px;
-            /* position: fixed; */
-            display: flex;
-            right: 0;
-
-      
-        }
-        .city .city_index>ul{
-            position: fixed;
-        }
-        .city .city_index ul li{
-            padding-top: 1px;
-
-        }
-</style>
+.city .city_index {
+  width: 20px;
+  right: 0;
+  display: flex;
+}
+.city .city_index > ul {
+  position: fixed;
+  right: 0;
+}
+.city .city_index ul li {
+  padding-top: 1px;
+}
+</style> 

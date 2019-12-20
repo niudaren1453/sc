@@ -30,6 +30,7 @@ import TabBar from '@/components/TabBar';
     }
 </script>
 <style scope>
+
 #content .movie_menu {
   width: 100%;
   height: 50px;
@@ -53,7 +54,7 @@ import TabBar from '@/components/TabBar';
   flex: 1px;
 }
 #content .movie_menu .icon {
-    transform: translateY(20px);
+    line-height: 50px;
 }
 
 .city_name.router-link-active{

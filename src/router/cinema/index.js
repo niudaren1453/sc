@@ -7,8 +7,17 @@ export default {
             component:()=>import('@/components/CiList')
         },
         {
+            path:'northAmerica',
+            component:()=>import('@/components/NorthAmerica')
+        },
+        {
+            path:'newTicket',
+            component:()=>import('@/components/NewTicket')
+        },
+        {
             path:'/cinema',
             redirect:'/cinema/CiList'
         },
+     
     ]
 }
