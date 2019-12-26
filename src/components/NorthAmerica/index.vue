@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="cineam">
-      <div class='time'>更新日期：{{data}}</div>
+      <!-- <div class='time'>更新日期：{{data}}</div>
 
       <div class="cineam_ul">
         <li class="cineam_li" v-for="(item,index) in subjects" :key="index">
@@ -32,7 +32,7 @@
           </div>
         </li>
       
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -46,23 +46,23 @@ export default {
           subjects:[],
       }
   },
-  mounted() {
-      this.axios.get('https://douban.uieee.com/v2/movie/us_box?apikey=0df993c66c0c636e29ecbb5344252a4a').then((res)=>{
-        //   console.log(res);
-        //   console.log(res.data.date);
-        //   console.log(res.data.subjects);
-          if(res.status=="200"){
-              this.data=res.data.date;
-              this.subjects=res.data.subjects;
-              //把票房次数/10000
-                for( var i=0;i<=this.subjects.length-1;i++){
-                    if(this.subjects[i].box>10000){
-                      this.subjects[i].box= this.subjects[i].box/10000;
-                    }
-                }
-          }
-      });
-  },
+  // mounted() {
+  //     this.axios.get('https://douban.uieee.com/v2/movie/us_box?apikey=0df993c66c0c636e29ecbb5344252a4a').then((res)=>{
+  //       //   console.log(res);
+  //       //   console.log(res.data.date);
+  //       //   console.log(res.data.subjects);
+  //         if(res.status=="200"){
+  //             this.data=res.data.date;
+  //             this.subjects=res.data.subjects;
+  //             //把票房次数/10000
+  //               for( var i=0;i<=this.subjects.length-1;i++){
+  //                   if(this.subjects[i].box>10000){
+  //                     this.subjects[i].box= this.subjects[i].box/10000;
+  //                   }
+  //               }
+  //         }
+  //     });
+  // },
  
 }
 </script>

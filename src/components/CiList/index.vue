@@ -1,6 +1,7 @@
 <template>
   <div>
-    <div class="cineam">
+    <Loading v-if="isLoading"/>
+    <div class="cineam" v-else>
       <div class="cineam_ul">
         <li class="cineam_li" v-for="(item,index) in cinemaList" :key="index">
           <div class="cineam_left">
@@ -24,7 +25,7 @@
           <div class="cineam_right">
             <div class="cineam_m" @click="tiaozhuan(item.alt)">
                详情
-              <!-- <img :src="item.images.large">部分图片获取失败 -->
+             
               </div>
           </div>
         </li>
@@ -40,16 +41,15 @@ export default {
   data(){
     return{
       cinemaList:[],
+      isLoading:true,
     };
   },
   mounted() {
     this.axios.get('https://douban.uieee.com/v2/movie/top250').then((res)=>{
-      console.log(res);
-      console.log(res.status);
-      console.log(res.data);
-      console.log(res.data.subjects);
+
       if(res.status=='200'){
         this.cinemaList=res.data.subjects;
+        this.isLoading=false;
       }
 
   

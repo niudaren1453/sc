@@ -9,9 +9,20 @@ import axios from 'axios';//引入axios
 Vue.prototype.axios=axios;
 Vue.use(ElementUI) //使用elementUI
 
+
+//喵喵API宽高过滤器
 Vue.filter('setWH',(url,arg)=>{
   return url.replace(/w\.h/,arg);
 })
+
+
+
+//滚动组件
+import Scroller from '@/components/Scroller'
+Vue.component('Scroller',Scroller);
+//loading组件
+import Loading from '@/components/Loading'
+Vue.component('Loading',Loading);
 
 Vue.config.productionTip = false
 

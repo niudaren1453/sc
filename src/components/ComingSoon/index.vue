@@ -1,40 +1,79 @@
 <template>
-    <div class="comingSoon">
-                <ul>
-                    <li v-for="item in movieList" :key="item.id">
-                        <div class="recommend_left">
-                             <img :src="item.img | setWH('128.180')">
-                        </div>
-                        <div class="recommend_mid">
-                            <div class="film_name">{{item.nm}}</div>
-                            <div class="ober">{{item.wish}}人想看</div>
-                            <div class="star">主演：{{item.star}}</div>
-                            <div class="projection_times">上映日期 ：{{item.rt}}</div>
-                        </div>
-                        <div class="recommend_right">
-                            <div class="btn_buy">预售</div>
-                        </div>
-                    </li>
-
-
-                </ul>
-            </div>
+  <div class="comingSoon" ref="comingSoon">
+       <Loading v-if="isLoading" />
+    
+    <ul v-else>
+      <li>{{pullDownMsg}}</li>
+      <li v-for="item in movieList" :key="item.id">
+        <div class="recommend_left">
+          <img :src="item.img | setWH('128.180')" />
+        </div>
+        <div class="recommend_mid">
+          <div class="film_name">{{item.nm}}</div>
+          <div class="ober">{{item.wish}}人想看</div>
+          <div class="star">主演：{{item.star}}</div>
+          <div class="projection_times">上映日期 ：{{item.rt}}</div>
+        </div>
+        <div class="recommend_right">
+          <div class="btn_buy">预售</div>
+        </div>
+      </li>
+    </ul>
+  </div>
 </template>
 <script>
+import BScorll from 'better-scroll'
+
 export default {
-    name:'ComingSoon',
-     data() {
+  name: 'ComingSoon',
+ data() {
     return {
       movieList: [],
+      pullDownMsg: '',
+      isLoading:true,
     }
   },
   mounted() {
     this.axios.get('/api/movieOnInfoList?cityId=10').then(res => {
-      var msg = res.data.msg;
+      var msg = res.data.msg
       if (msg == 'ok') {
-        this.movieList=res.data.data.movieList;
+        this.movieList = res.data.data.movieList;
+        this.isLoading=false;
+        this.$nextTick(() => {
+          var scroll = new BScorll(this.$refs.comingSoon, {
+            tap: true,
+            probeType: 1
+          })
+          scroll.on('scroll', pos => {
+            // console.log(2);
+            if (pos.y > 30) {
+              this.pullDownMsg = '正在更新中'
+            }
+          })
+
+          scroll.on('touchEnd', pos => {
+            // console.log(3);
+            if (pos.y > 30) {
+              this.axios.get('/api/movieOnInfoList?cityId=10').then(res => {
+                var msg = res.data.msg
+                if (msg == 'ok') {
+                  this.pullDownMsg = '更新完毕'
+                  setTimeout(()=>{
+                    this.movieList = res.data.data.movieList
+                    this.pullDownMsg='';
+                  },1000)
+                }
+              })
+            }
+          })
+        })
       }
     })
+  },
+  methods: {
+    handleToDetail() {
+      console.log(1)
+    }
   }
 }
 </script>
@@ -42,6 +81,7 @@ export default {
 <style  scoped>
 #content .comingSoon {
   margin-top: 100px;
+  height: 100%;
   /* overflow: hidden; */
 }
 #content ul {
@@ -102,5 +142,4 @@ export default {
   font-size: 18px;
   color: white;
 }
-
 </style>

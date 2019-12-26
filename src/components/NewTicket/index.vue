@@ -2,7 +2,7 @@
   <div>
     <div class="cineam">
 
-      <div class="cineam_ul">
+      <!-- <div class="cineam_ul">
         <li class="cineam_li" v-for="(item,index) in subjects" :key="index">
           <div class="cineam_left">
             <div class="cineam_details">
@@ -33,7 +33,7 @@
           </div>
         </li>
       
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -47,18 +47,18 @@ export default {
           subjects:[],
       }
   },
-  mounted() {
-    this.axios.get('https://douban.uieee.com/v2/movie/new_movies?apikey=0df993c66c0c636e29ecbb5344252a4a').then(res=>{
-        if(res.status="200"){
-            this.subjects=res.data.subjects;
+  // mounted() {
+  //   this.axios.get('https://douban.uieee.com/v2/movie/new_movies?apikey=0df993c66c0c636e29ecbb5344252a4a').then(res=>{
+  //       if(res.status="200"){
+  //           this.subjects=res.data.subjects;
 
 
-        }
+  //       }
      
-    });
+  //   });
 
     
-  },
+  // },
 
   
  

@@ -1,28 +1,31 @@
 <template>
   <div class="city">
-    <div class="city_list">
+    <Loading v-if="isLoading" />
+    <div v-else class="city_list">
       <div class="wrapper">
-        <div>
           <div class="city_hot">
             <h2>热门城市</h2>
             <ul class="clearfix">
-              <li v-for="item in hotList" :key="item.id">{{item.nm }}</li>
+              <li v-for="item in hotList" :key="item.id" @click="handleToCity(item.nm,item.id)">{{item.nm }}</li>
             </ul>
           </div>
           <div class="city_sort" ref="city_sort">
             <div v-for="item in cityList" :key="item.index">
               <h2>{{item.index}}</h2>
               <ul>
-                <li v-for="itemList in item.list" :key="itemList.id">{{itemList.nm}}</li>
+                <li v-for="itemList in item.list" :key="itemList.id" @click="handleToCity(itemList.nm,itemList.id)">{{itemList.nm}}</li>
               </ul>
             </div>
           </div>
-        </div>
       </div>
     </div>
     <div class="city_index">
       <ul>
-        <li v-for="(item,index) in cityList" :key="item.index" @touchstart="handleToIndex(index)">{{item.index}}</li>
+        <li
+          v-for="(item,index) in cityList"
+          :key="item.index"
+          @touchstart="handleToIndex(index)"
+        >{{item.index}}</li>
       </ul>
     </div>
   </div>
@@ -33,22 +36,37 @@ export default {
   data() {
     return {
       cityList: [],
-      hotList: []
+      hotList: [],
+      isLoading: true
     }
   },
   mounted() {
-    //结构     data下的cities[("id":1,  "nm":"北京"  ,  "isHot":1,  "py":"beijing")]
-    this.axios.get('/api/cityList').then(res => {
-      console.log(res)
-      var msg = res.data.msg //用来判断数据
-      if (msg === 'ok') {
-        var cities = res.data.data.cities
-        // console.log(data);
-        var { cityList, hotList } = this.formatCityList(cities)
-        this.cityList = cityList
-        this.hotList = hotList
-      }
-    })
+    //本地存储定义
+    var cityList = window.localStorage.getItem('cityList')
+    var hotList = window.localStorage.getItem('hotList')
+    //存储到本地，并判断如果两个值都有那么省去axios
+    if (cityList && hotList) {
+      this.cityList=JSON.parse(cityList);
+      this.hotList=JSON.parse(hotList);
+      this.isLoading=false;
+    } else {
+      //结构     data下的cities[("id":1,  "nm":"北京"  ,  "isHot":1,  "py":"beijing")]
+      this.axios.get('/api/cityList').then(res => {
+        // console.log(res)
+        var msg = res.data.msg //用来判断数据
+        if (msg === 'ok') {
+          var cities = res.data.data.cities
+          // console.log(data);
+          var { cityList, hotList } = this.formatCityList(cities)
+          this.cityList = cityList
+          this.hotList = hotList
+          this.isLoading = false
+          //本地存储
+          window.localStorage.setItem('cityList', JSON.stringify(cityList))
+          window.localStorage.setItem('hostList', JSON.stringify(hotList))
+        }
+      })
+    }
   },
   methods: {
     //实现如  上海      shanghai   截取s
@@ -62,7 +80,7 @@ export default {
           hotList.push(cities[i])
         }
       }
-      console.log(hotList) //查看hot城市
+      // console.log(hotList) //查看hot城市
 
       for (var i = 0; i < cities.length; i++) {
         var firstLetter = cities[i].py.substring(0, 1).toUpperCase() //截取py下的第一个拼音 &转换成英文大写
@@ -110,17 +128,33 @@ export default {
       }
       // console.log(cityList);//城市分类
     },
-    handleToIndex(index){
-        var h2=this.$refs.city_sort.getElementsByTagName('h2');//ref dom元素获取
-        console.log(h2[index]);
-        console.log(h2[index].offsetTop);
-        console.log(this.$refs.city_sort.parentNode.parentNode.parentNode);
-        this.$refs.city_sort.parentNode.parentNode.parentNode.scrollTop=h2[index].offsetTop-100;
-        //parentNode=city_list     由于使用margin-top 所以减上-100 
+    handleToIndex(index) {
+      var h2 = this.$refs.city_sort.getElementsByTagName('h2') //ref 元素获取
+      // console.log(h2[index])
+      // console.log(h2[index].offsetTop)
+      // console.log(this.$refs.city_sort.parentNode.parentNode)
+      // console.log(this.$refs.city_sort.parentNode.parentNode.scrollTop)
 
+      // console.log(this.$refs.city_sort.parentNode.parentNode.parentNode)
+      // console.log(this.$refs.city_sort.parentNode.parentNode.parentNode.scrollTop)
 
-    }
+      // console.log(this.$refs.city_sort.parentNode.parentNode.parentNode.parentNode)
+      // console.log(this.$refs.city_sort.parentNode.parentNode.parentNode.parentNode.scrollTop)
 
+      //外部高必须小于内部高
+      this.$refs.city_sort.parentNode.parentNode.parentNode.parentNode.scrollTop =  h2[index].offsetTop - 100
+      console.log("tiao")
+      //parentNode=city_list     由于使用margin-top 所以减上-100
+    },
+    handleToCity(nm,id){
+      //由于是在local storage写的不涉及到异步，所以使用commit
+      this.$store.commit('city/CITY_INFO',{nm,id});
+      // 记录点击的参数
+      window.localStorage.setItem('nowNm',nm);
+      window.localStorage.setItem('nowid',id);
+      //切换到nowplaying
+      this.$router.push('/movie/nowPlaying');
+    },
   }
 }
 </script>
