@@ -7,7 +7,7 @@
         <li class="pull" ref="pull">{{pullDownMsg}}</li>
         <li v-for="item in movieList" :key="item.id">
           <div class="recommend_left">
-            <img @tap="handleToDetail" :src="item.img | setWH('128.180')" />
+            <img @tap="handleToDetail(item.id)" :src="item.img | setWH('128.180')" />
           </div>
           <div class="recommend_mid">
             <div class="film_name">{{item.nm}}</div>
@@ -82,8 +82,9 @@ export default {
     })
   },
   methods: {
-    handleToDetail() {
-      console.log(1)
+    handleToDetail(movieId) {
+      console.log(movieId)
+      // this.$router.push('/movie/detail/'+movieId);  因api端口无数据了
     },
     handleToScroll(pos){
        if (pos.y > 30) {
@@ -110,8 +111,8 @@ export default {
 </script>
 <style scoped>
 #content .wrap {
-  margin-top: 100px;
   height: 100%;
+  margin-top:50px;
   /* overflow: hidden; */
 }
 #content ul {

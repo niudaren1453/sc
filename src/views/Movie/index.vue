@@ -36,7 +36,7 @@ export default {
         if (msg === 'ok') {
             var nm=res.data.data.nm;
             var id=res.data.data.id;
-            if(this.$store.state.city.id==id){return}//如果跟本地存储一样
+            if(window.localStorage.getItem('nowNm')==nm){return}//判断如果获取的当前位置如果相同
           messageBox({
             title: '定位',
             content: nm,
@@ -64,7 +64,6 @@ export default {
   z-index: 1;
   position: fixed;
   border-bottom: 1px solid #e6e6e6;
-  margin-top: 50px;
 }
 #content .movie_menu ul {
   width: 100%;

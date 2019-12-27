@@ -1,50 +1,66 @@
 <template>
   <div>
-    <div class="cineam">
-      <!-- <div class='time'>更新日期：{{data}}</div>
-
+        <Loading v-if="isLoading" />
+    <div v-else class="cineam">
       <div class="cineam_ul">
-        <li class="cineam_li" v-for="(item,index) in subjects" :key="index">
+        <li class="cineam_li" v-for="(item,index) in customList " :key="index">
           <div class="cineam_left">
             <div class="cineam_details">
-              <p class="cineam_p1">{{item.subject.title}}</p>
-              <p class="cineam_p2">评分<span>{{item.subject.rating.average}}</span></p>
+              <p class="cineam_p1">{{item.name}}</p>
+              <p class="cineam_p2">评分<span>{{item.score}}</span></p>
             </div>
             <div class="cineam_address">
-              <p >票数-{{item.box}}万  排名{{item.rank}}</p>
+              <p >主演:{{item.stars}}</p>
+              <p >地区：{{item.region}}<p/>
+
             </div>
             <div class="cineam_type">
-              <ul>
-                <li v-for="(i,genres) in subjects[index].subject.genres" :key="genres">
-                    {{i}}
-                  
+              <ul v-for="(i,index) in item.tag " :key="index">
+                <li >
+                  {{i}}
                 </li>
-               
             
               </ul>
             </div>
           </div>
           <div class="cineam_right">
-            <div class="cineam_m">
-               详情
+            <div class="cineam_m" >
+              <img :src="item.img" alt="此处为图片"  title="">
         
               </div>
           </div>
         </li>
       
-      </div> -->
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import mockData from "@/mock";
+
 export default {
   name: 'NorthAmerica',
   data(){
       return{
           data:"",
-          subjects:[],
+          // subjects:[],
+          customList:[],
+          isLoading:true
+        
       }
+  },
+
+  mounted(){
+    this.axios.get("/mock/custom").then(res=>{
+      console.log(res);
+      if(res.status==200){
+        this.customList=res.data.costom.data;
+        console.log(res.data.costom.data);
+        this.isLoading=false;
+        
+      };
+    })
   },
   // mounted() {
   //     this.axios.get('https://douban.uieee.com/v2/movie/us_box?apikey=0df993c66c0c636e29ecbb5344252a4a').then((res)=>{
@@ -71,7 +87,6 @@ export default {
   width: 100%;
   z-index: 1;
   position: fixed;
-  margin-top: 50px;
   background: white;
   display: flex;
   height: 50px;
@@ -87,7 +102,7 @@ export default {
 
 .cineam {
   width: 100%;
-  margin-top: 100px;
+  margin-top: 50px;
   margin-bottom: 50px;
 }
 .cineam .cineam_ul {

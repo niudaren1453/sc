@@ -23,7 +23,7 @@
             </div>
           </div>
           <div class="cineam_right">
-            <div class="cineam_m" @click="tiaozhuan(item.alt)">
+            <div class="cineam_m" @click="tiaozhuan(item.id)">
                详情
              
               </div>
@@ -46,18 +46,23 @@ export default {
   },
   mounted() {
     this.axios.get('https://douban.uieee.com/v2/movie/top250').then((res)=>{
-
+      
       if(res.status=='200'){
         this.cinemaList=res.data.subjects;
         this.isLoading=false;
+        // console.log(res.data.subjects[0].id)
       }
 
   
     })
   },
   methods:{
-    tiaozhuan(value){
-       window.location.href=value;
+    tiaozhuan(id){
+      console.log(id);
+      window.localStorage.setItem("detaiId",id);
+      this.$router.push('/cinema/detail');
+   
+      //  window.location.href=value;  豆瓣原网站详情
     }
   },
 }
@@ -83,7 +88,7 @@ export default {
 
 .cineam {
   width: 100%;
-  margin-top: 100px;
+  margin-top: 50px;
   margin-bottom: 50px;
 }
 .cineam .cineam_ul {
