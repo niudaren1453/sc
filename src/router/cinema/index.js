@@ -15,6 +15,15 @@ export default {
             component:()=>import('@/components/NewTicket')
         },
         {
+            path:'detail',
+            components:{
+                detail:()=>import('@/views/Cinema/detail')
+            },
+            props:{
+                detail:true,
+            },
+        },
+        {
             path:'/cinema',
             redirect:'/cinema/CiList'
         },

@@ -142,9 +142,9 @@ export default {
       // console.log(this.$refs.city_sort.parentNode.parentNode.parentNode.parentNode.scrollTop)
 
       //外部高必须小于内部高
-      this.$refs.city_sort.parentNode.parentNode.parentNode.parentNode.scrollTop =  h2[index].offsetTop - 100
+      this.$refs.city_sort.parentNode.parentNode.parentNode.parentNode.scrollTop =  h2[index].offsetTop -50
       console.log("tiao")
-      //parentNode=city_list     由于使用margin-top 所以减上-100
+      //parentNode=city_list
     },
     handleToCity(nm,id){
       //由于是在local storage写的不涉及到异步，所以使用commit
@@ -161,7 +161,6 @@ export default {
 
 <style scoped>
 #content .city {
-  margin-top: 100px;
   display: flex;
   width: 100%;
   top: 0;
@@ -227,7 +226,8 @@ export default {
 }
 
 .city .city_index {
-  width: 20px;
+  width: 30px;
+  margin-top: 80px;
   right: 0;
   display: flex;
 }
@@ -236,6 +236,6 @@ export default {
   right: 0;
 }
 .city .city_index ul li {
-  padding-top: 1px;
+  padding-top: 0.1px;
 }
 </style> 

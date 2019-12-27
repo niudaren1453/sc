@@ -24,6 +24,10 @@ Vue.component('Scroller',Scroller);
 import Loading from '@/components/Loading'
 Vue.component('Loading',Loading);
 
+
+//引入自定义的mock数据  
+import Mock from './mock/index.js';
+  
 Vue.config.productionTip = false
 
 new Vue({

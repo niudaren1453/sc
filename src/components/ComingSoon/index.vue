@@ -80,7 +80,7 @@ export default {
 
 <style  scoped>
 #content .comingSoon {
-  margin-top: 100px;
+  margin-top: 50px;
   height: 100%;
   /* overflow: hidden; */
 }

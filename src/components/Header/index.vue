@@ -1,6 +1,6 @@
 <template>
         <header id="header">
-            <h1>{{title}}</h1>
+           <slot></slot> <h1>{{title}}</h1>
         </header>
     
 </template>
@@ -23,7 +23,6 @@ export default {
   color: white;
   background: #e54847;
   border-bottom: 1px solid #e54847;
-  position: fixed;
   z-index: 500;
 }
 #header h1 {

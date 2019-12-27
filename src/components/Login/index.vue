@@ -1,10 +1,10 @@
 <template>
   <div class="login" style="margin-top: 50px;">
     <div>
-      <input type="text" placeholder="账号名/手机" class="login_us" />
+      <input type="text" v-model="username" placeholder="账号名/手机" class="login_us" />
     </div>
     <div>
-      <input type="text" placeholder="请输入您的密码" class="login_ps" />
+      <input type="text" v-model="password" placeholder="请输入您的密码" class="login_ps"  />
     </div>
     <div class="login_btn">
       <p>登录</p>
@@ -14,7 +14,16 @@
 
 <script>
 export default {
-  name: 'Login'
+  name: 'Login',
+  data(){
+    return{
+      username:'',
+      password:'',
+    }
+  },
+  methods:{
+   
+  }
 }
 </script>
 

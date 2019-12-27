@@ -50,7 +50,7 @@ export default {
       // console.log(newVal);
       this.cancelRequest();
 
-      this.axios.get('/api/searchList?cityId='+cityid+'&kw='+newVal,{
+      this.axios.get('/api/searchList?cityId='+cityId+'&kw='+newVal,{
          cancelToken: new this.axios.CancelToken(function(c){
           that.source=c;
         })
@@ -84,7 +84,7 @@ export default {
 
 <style scoped>
 .search {
-  margin-top: 100px;
+  margin-top: 50px;
   overflow: auto;
 }
 .search .search_input {

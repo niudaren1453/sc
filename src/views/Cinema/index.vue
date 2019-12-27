@@ -14,7 +14,7 @@
             </keep-alive>
         </div>
         <TabBar/>
-        
+    <router-view name="detail" />
     </div>
 </template>
 
@@ -39,7 +39,6 @@ import TabBar from '@/components/TabBar';
   z-index: 1;
   position: fixed;
   border-bottom: 1px solid #e6e6e6;
-  margin-top: 50px;
 }
 #content .movie_menu ul {
   width: 100%;
